@@ -1,5 +1,6 @@
 #coding=utf-8
 import re
+from json import loads
 from urllib import urlencode
 import GetContent
 
@@ -89,30 +90,50 @@ class GamesFromSina(object):
         self.getGames(url)    
 
 class WebApi(object):
+    def __init__(self):
+        self._domain='http://localhost/index.php?'
+        
     def GBK2UTF8(self, string):
         return string.decode('cp936').encode('utf8')
     
-    def addGame(self, tournament, hostTeam, guestTeam, dateTime):        
+    def checkResult(self, ret):
+        """在对下一级的json.loads结果处理前，仍要调用json.loads
+        """
+        jsonData=loads(ret)
+        jsonData=jsonData['data']
+        jsonData=loads(jsonData)
+        id=jsonData['id']
+        if(id != False):
+            return True
+        else:
+            return False
+    
+    def addGame(self, tournament, hostTeam, guestTeam, dateTime, round):        
         tournament=self.GBK2UTF8(tournament)
         hostTeam=self.GBK2UTF8(hostTeam)
         guestTeam=self.GBK2UTF8(guestTeam)
         param={'tournament':tournament, 
                'hostTeam':hostTeam, 
                'guestTeam':guestTeam, 
-               'dateTime':dateTime}
-        encoded=urlencode(param)        
-        url='http://localhost/index.php?m=game&f=addGame&'+encoded+'&t=json'            
-        #print url
-        ret=GetContent.getHtml(url)
+               'dateTime':dateTime,
+               'round':round}
+        encoded=urlencode(param)                
+        url=self._domain+'m=game&f=addGame&'+encoded+'&t=json'            
+        print url
+        ret=GetContent.getHtml(url)        
         print ret
+        return self.checkResult(ret)
 
 if __name__ == '__main__':
+    leagueId=318
+    round=1
     obj=GamesFromSina()
-    obj.getRoundGames(318, 1)
+    obj.getRoundGames(leagueId, round)
     #obj.printGames()
     webApi=WebApi()
-    count=1#TODO len(obj._hosts)
+    count=1#len(obj._hosts)
     for i in range(0, count):
-        webApi.addGame(obj._tournament, 
-        obj._hosts[i], obj._guests[i], obj._times[i])
+        if(False == webApi.addGame(obj._tournament, 
+        obj._hosts[i], obj._guests[i], obj._times[i], round)):
+            break
         
