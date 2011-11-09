@@ -1,25 +1,27 @@
-#coding=gbk
+#coding=utf-8
 import re
+from urllib import urlencode
 import GetContent
 
-class GamesFromSina:
+# 从新浪体育某个页面获取比赛信息
+class GamesFromSina(object):
     def __init__(self):
-        self._url=''   
-        self._leagueId=0
-        self._round=0 
+        self._leagueId=0    # 联赛名称
+        self._round=0       # 联赛轮次
         self._tournament=""
         self._hosts = []
         self._guests= []
         self._times = []
         
     def printGames(self):
-        print "%s ��%s��" % (self._tournament, self._round)
+        print "%s 第%s轮" % (self._tournament, self._round)
         for i in range(0, len(self._times)):
             print "%s VS %s" % (self._hosts[i], self._guests[i])
             print "                         Date: "+self._times[i]
         
-    # ��ȡ������Ϣ
     def getTournament(self, html):
+        """获取赛事名称
+        """
         key='tournament'
         pattern="<font color=\"2677AF\"> *(?P<%s>.+?)</font>" % key
         ret=re.search(pattern, html)
@@ -31,6 +33,8 @@ class GamesFromSina:
             self._tournament=self._tournament[:-5]
     
     def getTeams(self, html):
+        """获取该轮次所有比赛主队和客队
+        """
         pattern="class=\"a02\" target=_blank>.+?</a>"
         ret=GetContent.findAll(pattern, html)
         key="team"
@@ -44,6 +48,8 @@ class GamesFromSina:
                 self._guests.append(team)
                         
     def getGameDates(self, html):
+        """获取该轮次所有比赛开始时间
+        """
         pattern="<font color=\"#333333\">[0-9-:]+?</font>"
         ret=GetContent.findAll(pattern, html)
         key="time"
@@ -57,33 +63,56 @@ class GamesFromSina:
                 time=date+" "+time
                 self._times.append(time)
     
-    # get round resource URL
     def getRoundUrl(self):
-        baseUrl='http://data.sports.sina.com.cn/yingchao/calendar/'
+        """根据轮次、赛事id，获取该轮次比赛信息的URL
+        """
+        baseUrl="http://data.sports.sina.com.cn/yingchao/calendar/"
         params="?action=round&league_id=%s&round=%s" % (self._leagueId, self._round)
-        self._url=(baseUrl+params)
-        print "url: %s" % self._url    
+        url=(baseUrl+params)
+        return url    
                 
-    # get all games information from URL
-    def getGames(self):
-        #FIXME html=GetContent.getHtml(self._url)
+    def getGames(self, url):
+        """获取赛事某轮次的所有比赛信息
+        """
+        #TODO html=GetContent.getHtml(url)
         html=open("sina.htm").read()
         self.getTournament(html)
         self.getTeams(html)
         self.getGameDates(html)
         
-    # Public interface
     def getRoundGames(self, leagueId, round):
+        """公共接口，获取赛事某轮次的所有比赛信息
+        """
         self._leagueId = leagueId
         self._round = round
-        self.getRoundUrl()
-        self.getGames()    
+        url=self.getRoundUrl()
+        self.getGames(url)    
 
-
-leagueId=0
-round=0
+class WebApi(object):
+    def GBK2UTF8(self, string):
+        return string.decode('cp936').encode('utf8')
+    
+    def addGame(self, tournament, hostTeam, guestTeam, dateTime):        
+        tournament=self.GBK2UTF8(tournament)
+        hostTeam=self.GBK2UTF8(hostTeam)
+        guestTeam=self.GBK2UTF8(guestTeam)
+        param={'tournament':tournament, 
+               'hostTeam':hostTeam, 
+               'guestTeam':guestTeam, 
+               'dateTime':dateTime}
+        encoded=urlencode(param)        
+        url='http://localhost/index.php?m=game&f=addGame&'+encoded+'&t=json'            
+        #print url
+        ret=GetContent.getHtml(url)
+        print ret
 
 if __name__ == '__main__':
     obj=GamesFromSina()
     obj.getRoundGames(318, 1)
-    obj.printGames()
+    #obj.printGames()
+    webApi=WebApi()
+    count=1#TODO len(obj._hosts)
+    for i in range(0, count):
+        webApi.addGame(obj._tournament, 
+        obj._hosts[i], obj._guests[i], obj._times[i])
+        
