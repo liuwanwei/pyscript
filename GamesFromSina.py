@@ -112,14 +112,14 @@ class WebApi(object):
         tournament=self.GBK2UTF8(tournament)
         hostTeam=self.GBK2UTF8(hostTeam)
         guestTeam=self.GBK2UTF8(guestTeam)
-        param={'tournament':tournament, 
-               'hostTeam':hostTeam, 
-               'guestTeam':guestTeam, 
-               'dateTime':dateTime,
-               'round':round}
+        param=[('tournament',tournament), 
+               ('hostTeam',hostTeam), 
+               ('guestTeam',guestTeam), 
+               ('dateTime',dateTime),
+               ('round',round)]
         encoded=urlencode(param)                
         url=self._domain+'m=game&f=addGame&'+encoded+'&t=json'            
-        print url
+        #print url
         ret=GetContent.getHtml(url)        
         print ret
         return self.checkResult(ret)
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     obj.getRoundGames(leagueId, round)
     #obj.printGames()
     webApi=WebApi()
-    count=1#len(obj._hosts)
+    count=len(obj._hosts)
     for i in range(0, count):
         if(False == webApi.addGame(obj._tournament, 
         obj._hosts[i], obj._guests[i], obj._times[i], round)):
