@@ -5,7 +5,10 @@ import urllib
 
 def substring():
     string="中国职业足球超级联赛第1轮"
-    print string[:-5]
+    print len('第1轮')
+    print string
+    num=7
+    print string[:-num]
     
     
 def readfile():
@@ -29,10 +32,29 @@ def encodingBase64():
     c=urllib.urlencode(aurl)
     print c
     
+def testList():
+    match = (221, 222, 223, 224)
+    round = (30, 40, 50, 60)
+    
+    print len(match)
+    for i in range(0, len(match)):
+        print match[i]
+        print round[i] 
 
+def testMap():
+    map={'zhongchao':(221, 30), 'dejia':(222, 40)}
+    #print map['zhongchao']
+    list=map['zhongchao']
+    for i in map:
+        print i
+        for j in map[i]:
+            print j
+    
 if __name__ == "__main__":
     #substring()
     #readfile()
     #mergeString()
-    mergeUrl()
+    #mergeUrl()
     #encodingBase64()
+    #testList()
+    testMap()
