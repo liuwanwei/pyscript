@@ -47,8 +47,12 @@ def testMap():
     list=map['zhongchao']
     for i in map:
         print i
-        for j in map[i]:
+        print map[i][0]
+        print map[i][1]
+        """
+        for i in map[i]:
             print j
+        """
     
 if __name__ == "__main__":
     #substring()
