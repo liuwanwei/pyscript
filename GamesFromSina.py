@@ -2,7 +2,7 @@
 import re
 import GetContent
 from WebApi import WebApi
-from time import sleep
+
 
 # 从新浪体育某个页面获取比赛信息
 class GamesFromSina(object):
@@ -21,7 +21,9 @@ class GamesFromSina(object):
         
     def printGames(self):
         print "%s 第%s轮" % (self._tournament, self._round)
-        for i in range(0, len(self._times)):
+        count=len(self._times)
+        for i in range(0, count):
+            print i
             print "%s VS %s" % (self._hosts[i], self._guests[i])
             print "                         Date: "+self._times[i]
         
@@ -77,9 +79,9 @@ class GamesFromSina(object):
                 self._guests.append(team)
                         
     def getGameDates(self, html):
-        """获取该轮次所有比赛开始时间
+        """获取该轮次所有比赛开始时间，一次匹配日期和时间字段
         """
-        pattern="<font color=\"#333333\">[0-9-:]+?</font>"
+        pattern="<font color=\"#333333\">[0-9]+?[-:][0-9]+?[-:][0-9]+?</font>"
         ret=GetContent.findAll(pattern, html)
         key="time"
         for i in range(0, len(ret)):
@@ -89,7 +91,10 @@ class GamesFromSina(object):
             if i % 2 == 0:
                 date=time
             else:
+                print "game date: "+date
+                print "game time: "+time
                 time=date+" "+time
+                #2011-08-16 03:00:00
                 self._times.append(time)
     
     def getRoundUrl(self):
@@ -121,10 +126,10 @@ class GamesFromSina(object):
         return self.getGames(url) 
         
     def uploadRoundGames(self):        
-        count=len(obj._hosts)
+        count=len(self._hosts)
         for i in range(0, count):
-            if(False == self._webApi.addGame(obj._tournament, 
-                obj._hosts[i], obj._guests[i], obj._times[i], self._round)):
+            if(False == self._webApi.addGame(self._tournament, 
+                self._hosts[i], self._guests[i], self._times[i], self._round)):
                 break
         
         
@@ -134,13 +139,39 @@ class GamesFromSina(object):
                 break
             
             self.uploadRoundGames()        
-            sleep(2)
+            #sleep(2)
         
+def main():
+    obj=GamesFromSina()    
+    leagues={'xijia':(329, 38), 
+             'dejia':(327, 34), 
+             'yijia':(326, 38),              
+             'yingchao':(325, 38)}
+             #'fajia':(328, 38)} discard FaJia because no broadcast in china.           
+    for i in leagues:
+        print ("开始添加赛事 %s".decode('utf-8').encode('cp936')) % i        
+        leagueId=leagues[i][0]
+        maxRound=leagues[i][1]
+        print "league %s , round %s" % (leagueId, maxRound)
+        obj.getGamesInLeague(leagueId, maxRound)
+    
+
+def test():
+    obj=GamesFromSina()
+    obj.getGamesInLeague(329, 38)
+    #obj.getRoundGames(329, 16)
+    #obj.uploadRoundGames()
+    #obj.printGames()
+    
+def printAllLeagues():
+    obj=GamesFromSina()
+
+def updateGameTimeBeforeEachRound():
+    
 
 if __name__ == '__main__':
-    obj=GamesFromSina()
-    leagueId=318
-    maxRound=30
-    obj.getGamesInLeague(leagueId, maxRound)
-    #obj.printGames()    
+    #main()
+    test()
+    #printAllLeagues()
+        
         
