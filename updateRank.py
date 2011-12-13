@@ -1,4 +1,5 @@
 #coding=gbk
+#from sys import exit
 from re import findall
 #from sys import exit
 
@@ -24,3 +25,4 @@ if __name__ == "__main__":
                    ('http://sports.sina.com.cn/global/score/England/index.shtml', 21)]
     for i in range(len(tournaments)):
         updateRanks(tournaments[i][0], tournaments[i][1])
+    webApi.updateParam('updateRankTime', '')

@@ -42,10 +42,12 @@ class UpdateSoccerGameTime(object):
         tournamentId = string.atoi(tournamentId)
         round = string.atoi(round)    
     
+        # Does the key exist?
         if None == self._thisRound.get(tournamentId):
             self._thisRound[tournamentId] = [round]
         else:
             try:
+                # Does the value exist?
                 self._thisRound[tournamentId].index(round)
             except ValueError:
                 self._thisRound[tournamentId].append(round)
@@ -65,11 +67,13 @@ class UpdateSoccerGameTime(object):
         sina = GamesFromSina()        
             
         self.getGamesOfThisWeek()    
-            
+        
+        # After query, self._thisRound's value would like this:    
+        # {17: [17], 18: [16], 19: [18], 20: [16, 17], 21: [16]}
         keys = self._thisRound.keys()
         for i in range(len(keys)):
-            tourId = keys[i]    # 20
-            rounds = self._thisRound[keys[i]] # [13, 16]
+            tourId = keys[i]
+            rounds = self._thisRound[keys[i]]
             for j in range(len(rounds)):
                 leagueId = self._tourId2UrlId.get(tourId)
                 if None != leagueId:

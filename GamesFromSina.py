@@ -95,8 +95,8 @@ class GamesFromSina(object):
             if i % 2 == 0:
                 date=time
             else:
-                print "game date: "+date
-                print "game time: "+time
+                #print "game date: "+date
+                #print "game time: "+time
                 time=date+" "+time
                 #2011-08-16 03:00:00
                 self._times.append(time)
