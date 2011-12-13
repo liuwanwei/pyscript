@@ -75,6 +75,7 @@ class UpdateSoccerGameTime(object):
                 if None != leagueId:
                     print leagueId, rounds[j]
                     sina.getRoundGames(leagueId, rounds[j])
+                    sina.uploadRoundGames()
         
     
 if __name__ == "__main__":

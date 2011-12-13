@@ -7,7 +7,8 @@ from urllib import urlencode
 
 class WebApi(object):
     def __init__(self):
-        self._domain='http://localhost/index.php?'
+        #self._domain='http://localhost/index.php?'
+        self._domain='http://lingling1.sinaapp.com/index.php?'
         
     def GBK2UTF8(self, string):
         return string.decode('cp936').encode('utf8')
