@@ -2,6 +2,7 @@
 import re
 import base64
 import urllib
+import time
 
 def substring():
     string="中国职业足球超级联赛第1轮"
@@ -53,6 +54,25 @@ def testMap():
         for i in map[i]:
             print j
         """
+        
+def getTime():
+    nowTime = time.localtime()
+    nowSeconds = time.mktime(nowTime)
+    print nowTime
+    print nowSeconds
+    
+    elapsed = nowTime.tm_hour * 3600 + nowTime.tm_min * 60 + nowTime.tm_sec
+    dayBeginSeconds = nowSeconds - elapsed
+    dayBeginTime = time.localtime(dayBeginSeconds)
+    print dayBeginTime 
+    
+    weekBeginSeconds = dayBeginSeconds - nowTime.tm_wday * 3600 * 24
+    weekBeginTime = time.localtime(weekBeginSeconds)
+    print weekBeginTime
+    
+    weekEndSeconds = dayBeginSeconds + (7 - nowTime.tm_wday) * 3600 * 24
+    weekEndTime = time.localtime(weekEndSeconds)
+    print weekEndTime
     
 if __name__ == "__main__":
     #substring()
@@ -61,4 +81,5 @@ if __name__ == "__main__":
     #mergeUrl()
     #encodingBase64()
     #testList()
-    testMap()
+    #testMap()
+    getTime()

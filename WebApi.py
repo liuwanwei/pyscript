@@ -40,6 +40,13 @@ class WebApi(object):
         print 'add %s VS %s ON %s, ret %s' % (hostTeam, guestTeam, dateTime, ret)
         return self.checkResult(ret)
     
+    def getGamesOfWeek(self, begin, end):
+        param = [ ('begin', begin), ('end', end)]
+        encoded = urlencode(param)
+        url=self._domain+'m=game&f=getGamesOfWeek&'+encoded+'&t=json'
+        ret=getHtml(url)
+        return ret
+    
     def updateTeamRank(self, tournamentId, teamName, rank):
         teamName = self.GBK2UTF8(teamName)
         base = "http://lingling1.sinaapp.com/index.php?m=game&f=updateRank&"
