@@ -85,4 +85,7 @@ class UpdateSoccerGameTime(object):
 if __name__ == "__main__":
         updater = UpdateSoccerGameTime()
         updater.updateGames()
+        
+        webApi = WebApi()
+        webApi.updateParam('updateGameTime', '')
                 

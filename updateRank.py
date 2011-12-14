@@ -20,7 +20,7 @@ def updateRanks(rankUrl, tournamentId):
 if __name__ == "__main__":
     tournaments = [('http://sports.sina.com.cn/global/score/Germany/index.shtml', 17),
                    ('http://sports.sina.com.cn/global/score/Italy/index.shtml', 18),
-                   ('http://sports.sina.com.cn/global/score/France/index.shtml', 19),
+                   #('http://sports.sina.com.cn/global/score/France/index.shtml', 19),
                    ('http://sports.sina.com.cn/global/score/Spain/index.shtml', 20),
                    ('http://sports.sina.com.cn/global/score/England/index.shtml', 21)]
     for i in range(len(tournaments)):

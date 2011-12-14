@@ -1,14 +1,16 @@
 #coding=utf-8
 
-from GetContent import getHtml
 from json import loads
 from urllib import urlencode
+from time   import localtime
+
+from GetContent import getHtml
 
 
 class WebApi(object):
     def __init__(self):
-        self._domain='http://localhost/index.php?'
-        #self._domain='http://lingling1.sinaapp.com/index.php?'
+        #self._domain='http://localhost/index.php?'
+        self._domain='http://lingling1.sinaapp.com/index.php?'
         
     def GBK2UTF8(self, string):
         return string.decode('cp936').encode('utf8')
@@ -49,16 +51,29 @@ class WebApi(object):
         return ret
     
     def updateTeamRank(self, tournamentId, teamName, rank):
-        teamName = self.GBK2UTF8(teamName)
-        base = self._domain + "m=game&f=updateRank&"
-        param = "tournamentId=%s&teamName=%s&rank=%s&t=json" % (tournamentId, teamName, rank)
-        url = base + param
-        print "update rank [%s %s]" % (teamName, rank)
+        teamName = self.GBK2UTF8(teamName)        
+        param = [('tournamentId', tournamentId), ('teamName', teamName), ('rank', rank)]
+        encoded = urlencode(param)
+        url = self._domain + "m=game&f=updateRank&" + encoded + '&t=json'
         return getHtml(url)
 
-    def updateParam(self, key, value):
-        base = self._domain + "m=param&f=update&"
+    def updateParam(self, key, value):        
         param = "key=%s&val=%s&t=json" % (key, value)
-        url = base + param
-        print url
+        param = [('key', key), ('val', value)]
+        encoded = urlencode(param)
+        url = self._domain + "m=param&f=update&" + encoded + '&t=json'
         return getHtml(url)
+
+    def addTvB(self, team, date, time, tvb):
+        tm = localtime()
+        year = tm.tm_year
+        dateTime = "%s-%s %s" % (year, date, time)
+        
+        print team + " " + dateTime + " " + tvb
+        team=self.GBK2UTF8(team)
+        tvb=self.GBK2UTF8(tvb)
+        param = [('teamName', team), ('dateTime', dateTime), ('tvb', tvb)]
+        encoded = urlencode(param)
+        url = self._domain + "m=game&f=addTvB&" + encoded + '&t=json'
+        print url
+        print getHtml(url)

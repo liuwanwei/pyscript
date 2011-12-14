@@ -20,7 +20,7 @@ def getPage(file):
         sys.exit()
     line = file.readline()
     while line:      
-        checkDate(line)
+        checkDate(line) # TODO if is date, then jump next 2
         checkTime(line)
         checkTeam(line)
         

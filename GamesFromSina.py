@@ -101,11 +101,15 @@ class GamesFromSina(object):
                 #2011-08-16 03:00:00
                 self._times.append(time)
     
-    def getRoundUrl(self):
+    def getRoundUrl(self, league = 0, round = 0):
         """根据轮次、赛事id，获取该轮次比赛信息的URL
         """
+        if league == 0:
+            league = self._leagueId
+        if round == 0:
+            round = self._round
         baseUrl="http://data.sports.sina.com.cn/yingchao/calendar/"
-        params="?action=round&league_id=%s&round=%s" % (self._leagueId, self._round)
+        params="?action=round&league_id=%s&round=%s" % (league, round)
         url=(baseUrl+params)
         print url
         return url    

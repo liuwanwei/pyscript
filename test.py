@@ -13,9 +13,10 @@ def substring():
     
     
 def readfile():
-    file="sina.htm"
+    file="nba.htm"
     contents=open(file).read()
     print contents
+    
 
 def mergeString():
     url="http://localhost/index.php?m=game&f=addGame"+"&tournament="
@@ -73,8 +74,13 @@ def getTime():
     weekEndSeconds = dayBeginSeconds + (7 - nowTime.tm_wday) * 3600 * 24
     weekEndTime = time.localtime(weekEndSeconds)
     print weekEndTime
+   
+def testTime():
+    tm = time.localtime()
+    print tm.tm_year
     
 if __name__ == "__main__":
+    testTime()
     #substring()
     #readfile()
     #mergeString()
@@ -82,4 +88,4 @@ if __name__ == "__main__":
     #encodingBase64()
     #testList()
     #testMap()
-    getTime()
+    #getTime()
