@@ -1,5 +1,5 @@
 from GamesFromSina import GamesFromSina
-from GetContent import getHtml
+from WebPageFunction import getHtml
 
 if __name__ == "__main__":
     sina = GamesFromSina()

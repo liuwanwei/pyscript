@@ -4,7 +4,7 @@ from json import loads
 from urllib import urlencode
 from time   import localtime
 
-from GetContent import getHtml
+from WebPageFunction import getHtml
 
 
 class WebApi(object):

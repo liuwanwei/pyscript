@@ -1,7 +1,7 @@
 #coding=utf-8
 import re
-import GetContent
-from WebApi import WebApi
+import WebPageFunction
+from LingLingApi import WebApi
 
 
 """
