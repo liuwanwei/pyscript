@@ -1,18 +1,19 @@
-import GamesFromSina
+#coding=utf-8
+from GamesFromSina import GamesFromSina
 
 def main():
-    obj=GamesFromSina()    
-    leagues={'xijia':(329, 38), 
-             'dejia':(327, 34), 
-             'yijia':(326, 38),              
-             'yingchao':(325, 38)}
-             #'fajia':(328, 38)} discard FaJia because no broadcast in china.           
+    sinaAPI=GamesFromSina()
+	# 两个数字，前面代表在新浪数据库里的league_id，后面代表赛季共多少轮比赛。
+    leagues={'德甲':(418, 34),
+			 '英超':(419, 38),
+			 '西甲':(420, 38),  
+             '意甲':(421, 38)}
     for i in leagues:
         print ("开始添加赛事 %s".decode('utf-8').encode('cp936')) % i        
         leagueId=leagues[i][0]
         maxRound=leagues[i][1]
         print "league %s , round %s" % (leagueId, maxRound)
-        obj.getGamesInLeague(leagueId, maxRound)
+        sinaAPI.getGamesInLeague(leagueId, maxRound)
     
 
 def test():
@@ -26,6 +27,6 @@ def printAllLeagues():
     obj=GamesFromSina()
 
 if __name__ == '__main__':
-    #main()
-    test()
+    main()
+    #test()
     #printAllLeagues()
