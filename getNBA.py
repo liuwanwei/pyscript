@@ -25,6 +25,7 @@ def getPage(file):
         checkTeam(line)
         
         line = file.readline()
+    file.close()
     global matches
     print matches + 1
 
