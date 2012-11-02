@@ -5,7 +5,7 @@ from string import split
 from string import replace
 
 from WebApi import WebApi
-from GetContent import getHtml
+from WebPageFunction import getHtml
 
 class TVBroadCast(object):
     def __init__(self):

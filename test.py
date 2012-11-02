@@ -80,7 +80,7 @@ def testTime():
     print tm.tm_year
     
 if __name__ == "__main__":
-    testTime()
+#testTime()
     #substring()
     #readfile()
     #mergeString()
