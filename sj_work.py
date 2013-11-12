@@ -67,7 +67,7 @@ def parse_sheet(sheet, title):
 	generate_sheet(title)
 
 if __name__ == '__main__':
-	xls = 'gongzidan-2003.xls'
+	xls = 'gongzidan-201310.xls'
 	target = u'2013.10（建筑）'
 	target1 = u'2013.10(地产)'
 	rb = open_workbook(xls, formatting_info=True)
