@@ -1,13 +1,14 @@
+#!/usr/bin/python
 #encoding=utf8
 
 import json
 import os
 import re
 import sys
-from urllib import request
+import urllib
 from datetime import datetime
 
-debug=1
+debug=0
 
 def writeLog(message):
 	if debug:		
@@ -20,13 +21,13 @@ def writeLog(message):
 
 # Create sub directory in current directory.
 def createStorageDirectory(subdir):	
-	dir = '.\\' + subdir + '\\'
+	dir = 'output' + subdir
 	if not os.path.exists(dir):
 		os.makedirs(dir)
 	return dir
 
 def downloadMP4(url, destDirectory):							
-	response = request.urlopen(url)
+	response = urllib.urlopen(url)
 	buffer = bytearray()
 	while True:
 		data = response.read(1*1024*1024)
@@ -34,7 +35,9 @@ def downloadMP4(url, destDirectory):
 			break
 		buffer += data
 
-	open(destDirectory, 'x+b').write(buffer)
+	print(destDirectory)
+	# TODO On windows, 'x+b' is ok, but not on Mac. Why?
+	open(destDirectory, 'w+b').write(buffer)
 	
 
 def getVideoFragments(jsonData):
@@ -78,7 +81,7 @@ def downloadFragments(urls, directory):
 	total = len(urls)
 	for i in range(total):
 		filename = videoNameFromUrl(urls[i])		
-		dest = directory + filename
+		dest = directory + '/' + filename
 		if os.path.exists(dest):
 			print('->jumping ' + filename)
 		else:
@@ -107,7 +110,7 @@ def getVideoInfoUrl(id, subSite, entry):
 
 def getVideoInfo(videoEntry):
 	size = 12*1024*1024
-	response = request.urlopen(videoEntry)
+	response = urllib.urlopen(videoEntry)
 	
 	# Such a stupid thing to use different encodings in on site.
 	subSite = getSubSiteName(videoEntry)
@@ -129,7 +132,7 @@ def getVideoInfo(videoEntry):
 	xmlUrl = getVideoInfoUrl(id, subSite, videoEntry)	
 	
 	# Fetch Video-Description.
-	response = request.urlopen(xmlUrl)
+	response = urllib.urlopen(xmlUrl)
 	buffer = response.read(size).decode('utf8')
 	writeLog(buffer)
 		
@@ -157,7 +160,7 @@ if __name__ == "__main__":
 			xmlUrl = getVideoInfoUrl(pid, '000teleplay', 'http://donghua.cntv.cn/program/xiongchumozt/shouye/')
 		else:
 			xmlUrl = "";
-		response = request.urlopen(xmlUrl)
+		response = urllib.urlopen(xmlUrl)
 		info = response.read(12*1024*1024).decode('utf8')
 		jsonFormatData = json.loads(info)
 		fragments = getVideoFragments(jsonFormatData)
