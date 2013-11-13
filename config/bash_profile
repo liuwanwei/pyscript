@@ -1,0 +1,15 @@
+alias ll='ls -l'
+
+alias local='echo "7" | sudo -S cp /etc/hosts_local /etc/hosts'
+alias remote='echo "7" | sudo -S cp /etc/hosts_remote /etc/hosts'
+
+alias arst='echo "7" | sudo apachectl restart'
+
+alias sshs='ssh server@115.28.43.165'
+alias sshrt='ssh server@120.194.36.248 -p 2022'
+alias ssht='ssh server@192.168.1.202'
+
+alias cds='cd /Users/sungeo/www/soyu/'
+alias cdt='cd /Users/sungeo/www/tang/'
+
+alias gst='git status'
