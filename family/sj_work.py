@@ -67,23 +67,25 @@ def parse_sheet(sheet, title):
 
 	generate_sheet(title)
 
-if __name__ == '__main__':
-	xls = 'gongzidan-201310.xls'
-    if sys.argc != 0:
-            xls = sys.argv[1]
-    print xls
-	target = u'2013.10（建筑）'
-	target1 = u'2013.10(地产)'
+# 使用方法：
+# 1，支持通过命令行参数传递文件名。
+# 2，xls文件必须先取消密码（如果有的话）。
+# 3，xls文件必须是word2003兼容格式，如果不是，需要提前转换（另存为）
+# 4，结果输出在当前目录下，out开头的名字。
+if __name__ == '__main__':	
+	xls = 'gongzidan-201311-new.xls'
+ 	if len(sys.argv) > 1:
+		xls = sys.argv[1]
+
+	sheets = [u'2013.11（建筑）', u'2013.11(地产)']
+
 	rb = open_workbook(xls, formatting_info=True)
 
 	g_wb = xlwt.Workbook()
 
-	for s in rb.sheets():		
-		if s.name == target:
-			print(u'发现目标：' + target)
-			parse_sheet(s, target)						
-		elif s.name == target1:
-			print(u'发现目标:' + target1)
-			parse_sheet(s, target1)
+	for s in rb.sheets():
+		if s.name in sheets:
+			print(u'发现目标：' + s.name)
+			parse_sheet(s, s.name)						
 
-	g_wb.save('result.xls')
+	g_wb.save('out-' + xls)
