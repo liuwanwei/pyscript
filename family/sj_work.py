@@ -3,6 +3,7 @@ from xlrd import open_workbook
 import xlwt
 from xlutils.styles import Styles
 import xlutils.copy
+import sys
 
 g_count = 0
 g_employee_count = 0
@@ -68,6 +69,9 @@ def parse_sheet(sheet, title):
 
 if __name__ == '__main__':
 	xls = 'gongzidan-201310.xls'
+    if sys.argc != 0:
+            xls = sys.argv[1]
+    print xls
 	target = u'2013.10（建筑）'
 	target1 = u'2013.10(地产)'
 	rb = open_workbook(xls, formatting_info=True)

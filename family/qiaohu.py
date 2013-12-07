@@ -64,7 +64,10 @@ def generate_category():
 		html_tag.append(body_tag)
 
 		soup.append(html_tag)
-		open('./' + category['name'] + '.html', 'w').write(soup.prettify().encode('UTF-8'))
+
+		output = '/Users/sungeo/www/public/' + category['name'] + '.html'
+		open(output, 'w').write(soup.prettify().encode('UTF-8'))
+
 
 # 准备视频分类数组
 for  name in g_patter_list:
