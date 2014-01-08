@@ -69,9 +69,10 @@ def parse_sheet(sheet, title):
 
 # 使用方法：
 # 1，支持通过命令行参数传递文件名。
-# 2，xls文件必须先取消密码（如果有的话）。
+# 2，xls文件必须先取消密码（如果有的话）：Win下另存为时候，选择左下角“工具”。
 # 3，xls文件必须是word2003兼容格式，如果不是，需要提前转换（另存为）
-# 4，结果输出在当前目录下，out开头的名字。
+# 4，sheets变量修改成真正的sheets名字。 
+# 5，结果输出在当前目录下，out开头的名字。
 if __name__ == '__main__':	
 	xls = 'gongzidan-201311-new.xls'
  	if len(sys.argv) > 1:
