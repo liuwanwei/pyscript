@@ -68,17 +68,17 @@ def parse_sheet(sheet, title):
 	generate_sheet(title)
 
 # 使用方法：
-# 1，支持通过命令行参数传递文件名。
-# 2，xls文件必须先取消密码（如果有的话）：Win下另存为时候，选择左下角“工具”。
-# 3，xls文件必须是word2003兼容格式，如果不是，需要提前转换（另存为）
-# 4，sheets变量修改成真正的sheets名字。 
+# 1，支持通过命令行参数传递文件名。密码一般是2896.
+# 2，xls文件必须是word2003兼容格式，如果不是，需要提前转换（另存为）
+# 3，xls文件必须先取消密码（如果有的话）：Win下另存为时候，选择左下角“工具”。
+# 4，修改sheets变量成真正的sheets名字。（一般不用改） 
 # 5，结果输出在当前目录下，out开头的名字。
 if __name__ == '__main__':	
 	xls = 'gongzidan-201311-new.xls'
  	if len(sys.argv) > 1:
 		xls = sys.argv[1]
 
-	sheets = [u'2013.11（建筑）', u'2013.11(地产)']
+	sheets = [u'2014.1（建筑）', u'2014.1(地产)']
 
 	rb = open_workbook(xls, formatting_info=True)
 
