@@ -56,8 +56,32 @@ class VideoConverter:
         print(video_clip_path)
         video_clip.write_videofile(video_clip_path)
 
+def usage():
+    print('Usage: %s -i input_video_file -r rule_file' % sys.argv[0])
+    sys.exit(1)
 
 if __name__ == '__main__':
-    converter = VideoConverter('zwp.mp4', 'rule.conf')
+    import getopt
+    import sys
+
+    try:
+        (opts, args) = getopt.getopt(sys.argv[1:], 'i:r:')
+        for opt, arg in opts:
+            if opt == '-i':
+                input_file = arg
+            elif opt == '-r':
+                rule_file = arg
+    except getopt.GetoptError:
+        usage()
+
+    if 'input_file' not in locals():
+        print('\t请指定视频文件')
+        usage()
+
+    if 'rule_file' not in locals():
+        print('\t请指定处理规则')
+        usage()
+
+    converter = VideoConverter(input_file, rule_file)
     converter.convert()
     
