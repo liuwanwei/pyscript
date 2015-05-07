@@ -25,7 +25,7 @@ class VideoConverter:
                 (start, stop, name) = line.split(',')
                 if rules == None:
                     rules = []
-                rules.append((int(start), int(stop), name.strip('\n')))
+                rules.append( (float(start), float(stop), name.strip('\n')) )
 
         return rules
 
@@ -48,7 +48,7 @@ class VideoConverter:
 
 
     def split_file(self, start, stop, name):
-        msg = '[%d-%d] %s' % (start, stop, name)
+        print('[%.1f-%.1f] %s' % (start, stop, name))
         
         video_clip = self.video_file_clip.subclip(start, stop)
         video_clip_name = '[%d-%d]%s%s' % (start, stop, name, self.video_file_extension)
