@@ -22,10 +22,14 @@ class VideoConverter:
         rules = None
         with open(rule_file_path, 'r') as fp:
             for line in fp:
-                (start, stop, name) = line.split(',')
-                if rules == None:
-                    rules = []
-                rules.append( (float(start), float(stop), name.strip('\n')) )
+                line = line.strip('\n').strip()
+                array = line.split(',')
+                length = len(array)
+                if length == 3:
+                    (start, stop, name) = array
+                    if rules == None:
+                        rules = []
+                    rules.append( (start.strip(), stop.strip(), name.strip()) )
 
         return rules
 
@@ -48,10 +52,11 @@ class VideoConverter:
 
 
     def split_file(self, start, stop, name):
-        print('[%.1f-%.1f] %s' % (start, stop, name))
+        print('[%s-%s] %s' % (start, stop, name))
+        #return
         
         video_clip = self.video_file_clip.subclip(start, stop)
-        video_clip_name = '[%d-%d]%s%s' % (start, stop, name, self.video_file_extension)
+        video_clip_name = '[%s-%s]%s%s' % (start, stop, name, self.video_file_extension)
         video_clip_path = '%s/%s' % (self.video_file_name, video_clip_name)
         print(video_clip_path)
         video_clip.write_videofile(video_clip_path)
@@ -63,6 +68,9 @@ def usage():
 if __name__ == '__main__':
     import getopt
     import sys
+
+    input_file = 'zwp.mp4'
+    rule_file = 'rule.conf'
 
     try:
         (opts, args) = getopt.getopt(sys.argv[1:], 'i:r:')

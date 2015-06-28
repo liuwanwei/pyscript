@@ -35,8 +35,13 @@ if __name__ == '__main__':
         if os.path.exists(subdir):
             import shutil
             shutil.rmtree(subdir)
-            os.mkdir(subdir)
 
-        for width in app_icon_dimentions:
-            re_sample_app_icon(file_path, subdir, width)
+        os.mkdir(subdir)
+
+        if os.path.exists(subdir):
+            for width in app_icon_dimentions:
+                re_sample_app_icon(file_path, subdir, width)
+        else:
+            print('can not create subdir: %s' % subdir)
+
 
