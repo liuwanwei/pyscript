@@ -58,8 +58,12 @@ def get_video_list_url(shared_video_url):
 
     result = re.search(r'src="(http://aliv3.weipai.cn.+?)" webkit-playsinline', content)
     if result == None:
-        print('not found')
-        return None
+        result = re.search(r'src="(http://.+?\.m3u8)" webkit-playsinline', content)
+        if result == None:
+            print('video list not found')
+            return None
+        else:
+            print('get video list in postion 2')
 
     step2_url = result.group(1)
     print(step2_url)

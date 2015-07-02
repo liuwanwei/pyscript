@@ -8,7 +8,9 @@ app_icon_dimentions = [29, 29*2, 29*3, \
                        40, 40*2, 40*3, \
                        #60*2 \ the same as 40*3
                        60*3, \
-                       76, 76*2]
+                       76, 76*2,
+                       16,
+                       ]
 
 def re_sample_app_icon(filename, subdir, width, height = None):
     if height == None:
