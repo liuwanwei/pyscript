@@ -22,7 +22,10 @@ def merge(ts_filenames):
     with open (output, 'wb') as merged:
         for ts_file in ts_filenames:
             with open(ts_file, 'rb') as mergefile:
+                # 追加合并文件
                 shutil.copyfileobj(mergefile, merged)
+                # 删除临时文件
+                os.remove(ts_file)
 
 def get_video_url(content):
     video_urls = []
