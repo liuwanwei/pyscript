@@ -23,9 +23,10 @@ if __name__ == "__main__":
         print("文件名没有后缀？")
         sys.exit(2)
         
-    nowTime = datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
+    nowTime = datetime.datetime.today().strftime('%Y-%m-%d-%H-%M')
     output = sourceFile[:dotPosition] + '-' + nowTime + sourceFile[dotPosition:]
     print(output)
 
-    subprocess.call(['ffmpeg', '-i', sourceFile, '-vcodec', 'copy', '-acodec', 'copy', '-ss', startTime, '-t', substractLength, output])
-    # ffmpeg -i $sourceFile -vcodec copy -acodec copy -ss $start_time -t $length output.mp4
+    # 截取并重新编码视频，这样才能精确的从某个地方开始、从某个地方结束
+    subprocess.call(['ffmpeg', '-y', '-i', sourceFile, '-vcodec', 'libx264', '-acodec', 'libvo_aacenc', '-ss', startTime, '-t', substractLength, output])
+    #subprocess.call(['ffmpeg', '-y', '-i', sourceFile, '-vcodec', 'copy', '-acodec', 'copy', '-ss', startTime, '-t', substractLength, output])
