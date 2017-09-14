@@ -23,6 +23,7 @@ def re_sample_app_icon(filename, subdir, width, height = None):
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('usage:\n\t./%s  the_path_of_file' % __file__)
+        exit()
     else:
         print(sys.argv)
     
